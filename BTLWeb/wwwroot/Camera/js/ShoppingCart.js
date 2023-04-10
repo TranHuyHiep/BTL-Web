@@ -15,32 +15,32 @@ function loadData() {
                 var money = item.product.giaLonNhat * item.quantity;
                 str +=
                     `<tr>
-                            <td>${count}</td>
-                            <td><img src="../img/ImageCamera/${item.product.anhDaiDien}" alt="" style="width: 50px;"></td>
-                            <td>${item.product.tenSp}</td>
-                            <td class="align-middle">${item.product.giaLonNhat}</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
+                        <td>${count}</td>
+                        <td><img src="../img/ImageCamera/${item.product.anhDaiDien}" alt="" style="width: 50px;"></td>
+                        <td>${item.product.tenSp}</td>
+                        <td class="align-middle">${item.product.giaLonNhat}</td>
+                        <td class="align-middle">
+                            <div class="input-group quantity mx-auto" style="width: 100px;">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-sm btn-primary btn-minus">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
                                 </div>
-                            </td>
-                            <td class="align-middle" id="amount_${count}">${money}</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                        </tr>`
+                                <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-sm btn-primary btn-plus">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="align-middle" id="amount_${count}">${money}</td>
+                        <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
+                    </tr>`
             })
 
             if (count == 0) {
-                str = "<tr><td><p>Giỏ hàng trống</p></td></tr>"
+                str = "<tr><td colspan='7'><p>Giỏ hàng trống</p></td></tr>"
             }
 
             $('#showCart').html(str);
@@ -96,15 +96,10 @@ function btnCheckout() {
         }
     })
 }
-function changeMoney() {
 
-}
 
-(function ($) {
-    "use strict";
-// Product Quantity
+
 $('.quantity button').on('click', function () {
-    alert("click")
     var button = $(this);
     var oldValue = button.parent().parent().find('input').val();
     if (button.hasClass('btn-plus')) {
@@ -117,5 +112,13 @@ $('.quantity button').on('click', function () {
         }
     }
     button.parent().parent().find('input').val(newVal);
+
+    var parent = $(this).closest("tr");
+    // Tìm đến phần tử có class là "numPrice" trong phần tử cha
+    var numPrice = parent.find(".numPrice");
+    // Thay đổi giá trị của phần tử "numPrice"
+    var price = parent.find(".price").text();
+    const num = parseFloat(price.replace(',', '.'));
+    console.log(num)
+    numPrice.text(newVal * 1 * num);
 });
-})(jQuery);

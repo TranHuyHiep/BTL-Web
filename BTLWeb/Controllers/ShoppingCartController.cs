@@ -13,10 +13,14 @@ namespace BTLWeb.Controllers
         QlbanMayAnhContext db = new QlbanMayAnhContext();
         HoaDonBanService hoaDonBanService = new HoaDonBanService();
 
-        // GET: ShoppingCartController1
         public ActionResult Index()
         {
-            return View();
+            var cart = HttpContext.Session.Get<List<ShoppingCartViewModel>>(CommonConstants.SessionCart);
+            if (cart == null)
+            {
+                cart = new List<ShoppingCartViewModel>();
+            }
+            return View(cart);
         }
 
         [HttpPost]
